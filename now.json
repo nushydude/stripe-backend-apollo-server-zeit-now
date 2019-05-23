@@ -1,1 +1,10 @@
-{"version":2,"builds":[{"src":"index.js","use":"@now/node"}],"routes":[{"src":"/.*","dest":"index.js"}],"name":"apollo"}
+{
+  "version": 2,
+  "builds": [{ "src": "index.js", "use": "@now/node" }],
+  "routes": [{ "src": "/.*", "dest": "index.js" }],
+  "name": "apollo",
+  "env": {
+    "SECRET": "@my-top-secret",
+    "STRIPE_SECRET_KEY": "@stripe-secret-key"
+  }
+}

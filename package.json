@@ -1,15 +1,21 @@
 {
-  "name": "improved-apollo-example",
+  "name": "stripe-backend-apollo-server-zeit-now",
   "version": "1.0.0",
-  "description": "",
+  "description": "A proof of concept graphql backend for handling Stripe payments",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "now-build": "babel-node ./index.js"
   },
-  "author": "",
+  "author": "Anusha Dharmasena",
   "license": "ISC",
   "dependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.4.4",
     "apollo-server-micro": "^2.4.8",
-    "graphql": "^14.1.1"
+    "cuid": "^2.1.6",
+    "faker": "^4.1.0",
+    "graphql": "^14.1.1",
+    "stripe": "^7.0.1"
   }
 }

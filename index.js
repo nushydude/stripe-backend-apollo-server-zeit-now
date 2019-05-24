@@ -4,6 +4,7 @@ import * as Query from './src/queries';
 import { typeDefs } from './src/typedefs';
 import { getUserByJWT } from './src/utils/getUserByJWT';
 import { initStripe } from './src/configs/stripe';
+import cors from 'micro-cors';
 
 initStripe();
 
@@ -20,6 +21,7 @@ const resolvers = {
 };
 
 const server = new ApolloServer({
+  debug: true,
   typeDefs,
   resolvers,
   introspection: true,
@@ -29,6 +31,21 @@ const server = new ApolloServer({
 
     return { user };
   },
+  formatError: error => {
+    console.log(error);
+    return new Error('Ooopsie');
+  },
 });
 
-export default server.createHandler();
+// export default createCORSHandler()(server.createHandler());
+
+export default cors({
+  allowMethods: ['POST', 'GET', 'OPTIONS'],
+})((req, res) => {
+  if (req.method === 'OPTIONS') {
+    res.end();
+    return;
+  }
+
+  return server.createHandler()(req, res);
+});

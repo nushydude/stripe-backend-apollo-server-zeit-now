@@ -53,7 +53,6 @@ export const typeDefs = gql`
   input CreatePurchaseInput {
     amount: Float!
     currency: Currency!
-    date: String!
     token: String!
   }
 

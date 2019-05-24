@@ -5,15 +5,35 @@ import { purchases } from '../dataStore';
 export async function createPurchase(_, { input }) {
   const stripe = getStripe();
 
-  let charge;
+  let customer;
 
   try {
-    charge = await stripe.charges.create({
-      amount: input.amount * 100, // needs to be in cents
-      currency: input.currency, // needs to be in lowercase and supported ones listed here https://stripe.com/docs/currencies
+    customer = await stripe.customers.create({
       source: input.token,
-      description: 'something',
+      email: 'paying.user@example.com',
     });
+  } catch (error) {
+    console.log('error creating customer:', error.message);
+  }
+
+  console.log('customer:', customer);
+
+  let purchase;
+
+  try {
+    if (customer) {
+      purchase = await stripe.charges.create({
+        amount: input.amount * 100, // needs to be in cents
+        currency: input.currency,
+        customer: customer.id,
+      });
+    } else {
+      purchase = await stripe.charges.create({
+        amount: input.amount * 100, // needs to be in cents
+        currency: input.currency, // needs to be in lowercase and supported ones listed here https://stripe.com/docs/currencies
+        source: input.token,
+      });
+    }
   } catch (error) {
     return {
       purchase: null,
@@ -22,8 +42,6 @@ export async function createPurchase(_, { input }) {
       },
     };
   }
-
-  const purchase = { ...charge, id: cuid() };
 
   console.log('purchase:', purchase);
 

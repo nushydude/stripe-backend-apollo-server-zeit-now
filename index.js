@@ -37,8 +37,6 @@ const server = new ApolloServer({
   },
 });
 
-// export default createCORSHandler()(server.createHandler());
-
 export default cors({
   allowMethods: ['POST', 'GET', 'OPTIONS'],
 })((req, res) => {
